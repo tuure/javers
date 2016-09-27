@@ -30,6 +30,13 @@ public class CustomBigDecimalComparator implements CustomPropertyComparator<BigD
     public ValueChange compare(BigDecimal left, BigDecimal right, GlobalId affectedId,
         Property property)
     {
+        if(left==null && right==null)
+            return null;
+        if(left==null && right!=null)
+            return new ValueChange(affectedId, property.getName(), null, right);
+        if(left!=null && right==null)
+            return new ValueChange(affectedId, property.getName(), left, null);
+        
         BigDecimal leftRounded = left.setScale(significantDecimalPlaces, ROUND_HALF_UP);
         BigDecimal rightRounded = right.setScale(significantDecimalPlaces, ROUND_HALF_UP);
 
